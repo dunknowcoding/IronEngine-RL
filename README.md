@@ -461,6 +461,35 @@ The exact transport can vary by robot, but the framework expectation stays the s
 5. Swap inference backends later through `examples/inference/` without changing the hardware contract first.
 6. Use the `*_complete` examples when you want end-to-end customization of action scheme, repository/database storage, evaluation task, metrics, and inference behavior.
 
+### How servo control works in the ARMSmart example
+
+The ARMSmart example does not ask users to handcraft raw servo packets in normal operation. Instead, the framework controls the arm through normalized action channels and then translates them into protocol packets for the configured transport.
+
+| Layer | File | What happens |
+| --- | --- | --- |
+| Action selection | `user_modules/examples/agents/armsmart_action_scheme_agent.py` | The agent fills `ActionCommand` fields such as `arm_lift`, `arm_extend`, `wrist_yaw`, and `gripper_close` |
+| Action model | `src/ironengine_rl/interfaces/models.py` | `ActionCommand` defines the logical control surface used by agents, safety, and adapters |
+| Packet encoding | `src/ironengine_rl/hardware_adapters/armsmart.py` | `encode_action_packets()` converts the logical command into `motor_set` and `servo_set` protocol frames |
+| Protocol execution | `examples/hardware/armsmart/profile.mock.json` | The profile defines the protocol command IDs such as `servo_set`, `servo_enable`, `servo_freeze`, and `servo_estop` |
+
+#### Servo mapping used by the adapter
+
+- `servo_id 1` → `arm_lift`
+- `servo_id 2` → `arm_extend`
+- `servo_id 3` → `wrist_yaw`
+- `servo_id 4` → `gripper_close`
+
+In `src/ironengine_rl/hardware_adapters/armsmart.py`, `_servo_targets()` converts each normalized action value into an angle and `encode_action_packets()` emits one `servo_set` frame per servo.
+
+#### Practical control flow
+
+1. an agent or custom policy produces an `ActionCommand`
+2. the hardware adapter maps those fields to servo IDs and target angles
+3. the selected transport sends the encoded packets
+4. telemetry comes back as observation fields such as `arm_height`, `arm_extension`, and `gripper_close`
+
+If you want direct manual control, the clean way is still to set `ActionCommand.arm_lift`, `ActionCommand.arm_extend`, `ActionCommand.wrist_yaw`, and `ActionCommand.gripper_close`, then let the ARMSmart adapter perform the packet encoding for you.
+
 ### Requirements for customized hardware
 
 A customized robot should provide the following at minimum:
