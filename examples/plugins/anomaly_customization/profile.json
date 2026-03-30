@@ -1,0 +1,118 @@
+{
+  "runtime": {
+    "mode": "simulation",
+    "stage": "B"
+  },
+  "action_scheme": {
+    "name": "anomaly_first_schedule",
+    "command_channels": [
+      "chassis_forward",
+      "chassis_turn",
+      "arm_lift",
+      "arm_extend",
+      "gripper_close"
+    ],
+    "feedback_fields": [
+      "object_dx",
+      "object_dy",
+      "claw_alignment",
+      "arm_extension",
+      "arm_height",
+      "battery_level",
+      "collision_risk"
+    ],
+    "result_fields": [
+      "reward.total",
+      "reward.components.safety",
+      "done",
+      "info.anomalies"
+    ],
+    "schedule_notes": [
+      "stop early when anomaly routing requests a halt",
+      "treat visibility degradation and fault windows as first-class runtime signals"
+    ]
+  },
+  "simulator": {
+    "dt_s": 0.1,
+    "max_steps": 16,
+    "enable_noise": true,
+    "object_pose": {
+      "x": 1.1,
+      "y": 0.08
+    },
+    "faults": {
+      "camera_dropout_probability": 0.6,
+      "collision_bias": 0.18,
+      "battery_drain_scale": 1.3,
+      "intermittent_fault_after_step": 4,
+      "wrist_drift_deg": 5.0
+    }
+  },
+  "vision": {
+    "backend": "replay",
+    "dash_camera_id": "dash_cam",
+    "claw_camera_id": "claw_cam",
+    "replay_file": "profiles/replay_camera/vision_features.json",
+    "replay_loop": true
+  },
+  "model_provider": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.inference.anomaly_aware_inference_provider:AnomalyAwareInferenceProvider"
+    },
+    "visibility_alert_threshold": 0.45,
+    "collision_anomaly_threshold": 0.65,
+    "battery_alert_threshold": 0.2,
+    "expected_camera_count": 2,
+    "visibility_anomaly_name": "visibility_below_threshold",
+    "collision_anomaly_name": "collision_watch",
+    "battery_anomaly_name": "battery_margin_low",
+    "fault_anomaly_name": "fault_window_active"
+  },
+  "agent": {
+    "type": "heuristic"
+  },
+  "boundary_conditions": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.safety.anomaly_routing_policy:AnomalyRoutingSafetyPolicy"
+    },
+    "stop_anomalies": [
+      "fault_window_active",
+      "camera_dropout"
+    ],
+    "warn_only_anomalies": [
+      "visibility_below_threshold",
+      "collision_watch",
+      "battery_margin_low"
+    ]
+  },
+  "evaluation": {
+    "task": "tabletop_grasp",
+    "metrics": [
+      "task_performance",
+      "boundary_violations"
+    ]
+  },
+  "reward": {
+    "progress_scale": 4.0,
+    "alignment_scale": 1.6,
+    "visibility_scale": 0.8,
+    "safety_scale": 3.0,
+    "success_bonus": 10.0
+  },
+  "safety": {
+    "max_chassis_speed": 0.55,
+    "max_turn_rate": 0.45,
+    "max_arm_speed": 0.6,
+    "collision_stop_threshold": 0.82,
+    "stale_observation_stop_steps": 3,
+    "connection_required": false,
+    "low_battery_stop_threshold": 0.15,
+    "max_arm_extension": 0.85,
+    "max_gripper_close": 1.0
+  },
+  "logs": {
+    "run_dir": "logs/examples/plugins/anomaly_customization"
+  }
+}

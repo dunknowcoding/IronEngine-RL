@@ -1,0 +1,183 @@
+{
+  "runtime": {
+    "mode": "simulation",
+    "stage": "B"
+  },
+  "platform": {
+    "name": "task_oriented_multi_object_grasp_sim",
+    "type": "simulation",
+    "description": "Deterministic multi-object grasp example showing task-oriented LLM settings in one runnable profile."
+  },
+  "simulator": {
+    "dt_s": 0.1,
+    "max_steps": 24,
+    "enable_noise": false,
+    "grasp_height_target": 0.18,
+    "target_object_label": "red_mug",
+    "scene_objects": [
+      {
+        "label": "blue_box",
+        "kind": "box",
+        "x": 1.02,
+        "y": -0.22
+      },
+      {
+        "label": "red_mug",
+        "kind": "mug",
+        "x": 1.16,
+        "y": 0.16,
+        "target": true
+      },
+      {
+        "label": "green_bottle",
+        "kind": "bottle",
+        "x": 1.27,
+        "y": 0.32
+      }
+    ],
+    "faults": {
+      "sensor_dropout_probability": 0.0,
+      "camera_dropout_probability": 0.0,
+      "battery_drain_scale": 1.0
+    }
+  },
+  "vision": {
+    "backend": "synthetic",
+    "dash_camera_id": "dash_cam_sim",
+    "claw_camera_id": "claw_cam_sim"
+  },
+  "safety": {
+    "max_chassis_speed": 0.5,
+    "max_turn_rate": 0.35,
+    "max_arm_speed": 0.5,
+    "collision_stop_threshold": 0.8,
+    "stale_observation_stop_steps": 3,
+    "connection_required": false,
+    "low_battery_stop_threshold": 0.15,
+    "max_arm_extension": 0.85,
+    "max_gripper_close": 1.0
+  },
+  "reward": {
+    "progress_scale": 4.2,
+    "alignment_scale": 1.4,
+    "pregrasp_scale": 1.4,
+    "reachability_scale": 0.8,
+    "visibility_scale": 0.5,
+    "energy_scale": 0.08,
+    "battery_margin_scale": 0.15,
+    "safety_scale": 2.0,
+    "vertical_error_scale": 0.8,
+    "success_bonus": 12.0
+  },
+  "model_provider": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.inference.armsmart_local_llm_provider:ARMSmartLocalLLMProvider"
+    },
+    "role_contract_file": "SOUL.md",
+    "model": "qwen3.5:2b",
+    "base_url": "http://127.0.0.1:11434",
+    "live_inference": false,
+    "prompt_template": "target_selection_grasp_local",
+    "system_prompt": "You are the ARMSmart planning module. Select the correct target from visible objects, then choose the next safe phase.",
+    "timeout_s": 20.0,
+    "contract": {
+      "observation_fields": [
+        "object_dx",
+        "object_dy",
+        "object_distance",
+        "claw_alignment",
+        "pregrasp_ready",
+        "scene_object_count",
+        "target_object_visible",
+        "battery_level",
+        "collision_risk"
+      ],
+      "camera_roles": [
+        "dash",
+        "claw"
+      ]
+    }
+  },
+  "llm": {
+    "role_contract_file": "SOUL.md",
+    "task": {
+      "name": "multi_object_target_grasp",
+      "goal": "Pick up the red mug on the right side of the table and ignore the blue box and green bottle.",
+      "success_criteria": [
+        "keep the red mug selected during approach",
+        "enter pregrasp only when the target is aligned and reachable",
+        "finish the grasp without violating safety limits"
+      ],
+      "constraints": [
+        "respect the action scheme",
+        "do not bypass the safety controller",
+        "use visible detections and repository context for target selection"
+      ],
+      "output_requirements": [
+        "return the next framework-compatible control phase",
+        "ground the decision in current detections"
+      ]
+    }
+  },
+  "action_scheme": {
+    "name": "target_first_grasp_schedule",
+    "command_channels": [
+      "chassis_forward",
+      "chassis_turn",
+      "arm_lift",
+      "arm_extend",
+      "gripper_close"
+    ],
+    "feedback_fields": [
+      "object_dx",
+      "object_dy",
+      "object_distance",
+      "claw_alignment",
+      "pregrasp_ready",
+      "scene_object_count",
+      "target_object_visible",
+      "collision_risk",
+      "battery_level"
+    ],
+    "result_fields": [
+      "reward.total",
+      "done",
+      "info.success"
+    ],
+    "schedule_notes": [
+      "approach before aggressive arm extension",
+      "prefer target stability over fast target switching",
+      "only enter grasp when alignment and safety are acceptable"
+    ]
+  },
+  "agent": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.agents.armsmart_action_scheme_agent:ARMSmartActionSchemeAgent"
+    }
+  },
+  "repository": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.repositories.armsmart_experiment_repository:ARMSmartExperimentRepository"
+    },
+    "database_file": "task_oriented_multi_object_grasp_db.json"
+  },
+  "evaluation": {
+    "task": "tabletop_grasp",
+    "metrics": [
+      "task_performance",
+      "boundary_violations",
+      {
+        "type": "custom_plugin",
+        "plugin": {
+          "module_path": "user_modules.examples.metrics.armsmart_reward_state_metric:ARMSmartRewardStateMetric"
+        }
+      }
+    ]
+  },
+  "logs": {
+    "run_dir": "logs/examples/inference/task_oriented_multi_object_grasp"
+  }
+}

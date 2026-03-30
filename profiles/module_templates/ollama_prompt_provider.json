@@ -1,0 +1,10 @@
+{
+  "model_provider": {
+    "type": "ollama_prompt",
+    "model": "llama3.1:8b",
+    "base_url": "http://127.0.0.1:11434",
+    "system_prompt": "Apply IronEngine safety and state abstractions before proposing the next robot action.",
+    "prompt_template": "grasp_controller_v1",
+    "timeout_s": 8.0
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "dash": [
+    {
+      "timestamp_s": 0.0,
+      "features": {
+        "target_visibility": 0.82,
+        "heading_alignment": 0.74,
+        "replay_available": 1.0
+      },
+      "detections": [
+        {
+          "label": "target_object",
+          "confidence": 0.82
+        }
+      ]
+    },
+    {
+      "timestamp_s": 0.1,
+      "features": {
+        "target_visibility": 0.87,
+        "heading_alignment": 0.81,
+        "replay_available": 1.0
+      },
+      "detections": [
+        {
+          "label": "target_object",
+          "confidence": 0.87
+        }
+      ]
+    }
+  ],
+  "claw": [
+    {
+      "timestamp_s": 0.0,
+      "features": {
+        "target_visibility": 0.41,
+        "target_centered": 0.52,
+        "replay_available": 1.0
+      },
+      "detections": [
+        {
+          "label": "grasp_target",
+          "confidence": 0.41
+        }
+      ]
+    },
+    {
+      "timestamp_s": 0.1,
+      "features": {
+        "target_visibility": 0.66,
+        "target_centered": 0.78,
+        "replay_available": 1.0
+      },
+      "detections": [
+        {
+          "label": "grasp_target",
+          "confidence": 0.66
+        }
+      ]
+    }
+  ]
+}

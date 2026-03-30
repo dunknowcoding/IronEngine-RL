@@ -1,0 +1,245 @@
+{
+  "hardware": {
+    "platform": {
+      "name": "armsmart_pytorch_complete_example",
+      "type": "armsmart_reference",
+      "description": "ARMSmart mock transport with a custom PyTorch provider, custom policy update rules, a custom real-task definition, and a persistent experiment repository."
+    },
+    "connection": {
+      "backend": "mock",
+      "default_mode": "arm",
+      "timeout_s": 0.05,
+      "read_chunk_size": 256,
+      "ble_enabled": true,
+      "serial": {
+        "port": "COM5",
+        "baud_rate": 115200
+      },
+      "udp": {
+        "host": "127.0.0.1",
+        "port": 9000,
+        "timeout_s": 0.05
+      }
+    },
+    "protocol": {
+      "commands": {
+        "ping": 1,
+        "pong": 2,
+        "set_mode_arm": 16,
+        "set_mode_car": 17,
+        "mode_ack": 18,
+        "servo_set": 32,
+        "motor_set": 48
+      }
+    },
+    "cameras": {
+      "backend": "placeholder",
+      "dash": {
+        "camera_id": "dash_cam_hw",
+        "device_index": 0,
+        "role": "dash"
+      },
+      "claw": {
+        "camera_id": "claw_cam_hw",
+        "device_index": 1,
+        "role": "claw"
+      }
+    },
+    "safety": {
+      "max_chassis_speed": 0.5,
+      "max_turn_rate": 0.4,
+      "max_arm_speed": 0.5,
+      "collision_stop_threshold": 0.8,
+      "stale_observation_stop_steps": 3,
+      "connection_required": true,
+      "low_battery_stop_threshold": 0.15,
+      "max_arm_extension": 0.85,
+      "max_gripper_close": 1.0
+    },
+    "mock": {
+      "active_scenario": "nominal",
+      "packets": [],
+      "scenarios": {
+        "nominal": [
+          {
+            "timestamp_s": 0.1,
+            "connection_alive": 1.0,
+            "battery_level": 0.93,
+            "collision_risk": 0.03,
+            "object_grasped": 0.0,
+            "object_dx": 0.35,
+            "object_dy": 0.02,
+            "arm_height": 0.25,
+            "arm_extension": 0.46,
+            "claw_alignment": 0.82,
+            "gripper_close": 0.16,
+            "dash_visibility": 0.88,
+            "claw_visibility": 0.63
+          },
+          {
+            "timestamp_s": 0.2,
+            "connection_alive": 1.0,
+            "battery_level": 0.92,
+            "collision_risk": 0.05,
+            "object_grasped": 0.0,
+            "object_dx": 0.24,
+            "object_dy": 0.01,
+            "arm_height": 0.28,
+            "arm_extension": 0.58,
+            "claw_alignment": 0.86,
+            "gripper_close": 0.22,
+            "dash_visibility": 0.9,
+            "claw_visibility": 0.7
+          }
+        ]
+      }
+    }
+  },
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "action_scheme": {
+    "name": "armsmart_pick_place_schedule",
+    "command_channels": [
+      "chassis_forward",
+      "chassis_turn",
+      "arm_lift",
+      "arm_extend",
+      "wrist_yaw",
+      "gripper_close"
+    ],
+    "feedback_fields": [
+      "connection_alive",
+      "battery_level",
+      "collision_risk",
+      "object_dx",
+      "object_dy",
+      "claw_alignment",
+      "arm_extension",
+      "arm_height",
+      "gripper_close"
+    ],
+    "result_fields": [
+      "reward.total",
+      "reward.components.progress",
+      "reward.components.alignment",
+      "done",
+      "info.success"
+    ],
+    "schedule_notes": [
+      "approach until object distance is low before aggressive arm extension",
+      "treat grasp confidence and collision risk as the main phase gate",
+      "persist state and reward traces for post-run policy analysis"
+    ]
+  },
+  "model_provider": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.inference.armsmart_adaptive_torch_provider:ARMSmartAdaptiveTorchProvider"
+    },
+    "weights_file": "examples/inference/armsmart_pytorch_complete/weights/demo_policy.pt",
+    "grasp_threshold": 0.58,
+    "update_strategy": {
+      "type": "custom_plugin",
+      "plugin": {
+        "module_path": "user_modules.examples.update.armsmart_reward_blend_update:ARMSmartRewardBlendUpdate"
+      },
+      "reward_gain": 0.14,
+      "alignment_gain": 0.08,
+      "grasp_gain": 0.1,
+      "safety_penalty": 0.18
+    },
+    "contract": {
+      "observation_fields": [
+        "connection_alive",
+        "battery_level",
+        "collision_risk",
+        "object_dx",
+        "object_dy",
+        "claw_alignment",
+        "arm_extension",
+        "arm_height",
+        "gripper_close"
+      ],
+      "camera_roles": [
+        "dash",
+        "claw"
+      ]
+    }
+  },
+  "agent": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.agents.armsmart_action_scheme_agent:ARMSmartActionSchemeAgent"
+    },
+    "contract": {
+      "action_channels": [
+        "chassis_forward",
+        "chassis_turn",
+        "arm_lift",
+        "arm_extend",
+        "wrist_yaw",
+        "gripper_close"
+      ]
+    }
+  },
+  "repository": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.repositories.armsmart_experiment_repository:ARMSmartExperimentRepository"
+    },
+    "database_file": "armsmart_experiment_db.json"
+  },
+  "evaluation": {
+    "task": {
+      "type": "custom_plugin",
+      "name": "armsmart_pick_place_real_task",
+      "plugin": {
+        "module_path": "user_modules.examples.tasks.armsmart_pick_place_task:build_armsmart_pick_place_task"
+      },
+      "contract": {
+        "observation_fields": [
+          "connection_alive",
+          "battery_level",
+          "collision_risk",
+          "object_dx",
+          "object_dy",
+          "claw_alignment",
+          "arm_extension",
+          "arm_height",
+          "gripper_close"
+        ],
+        "camera_roles": [
+          "dash",
+          "claw"
+        ]
+      }
+    },
+    "metrics": [
+      "task_performance",
+      "boundary_violations",
+      {
+        "type": "custom_plugin",
+        "plugin": {
+          "module_path": "user_modules.examples.metrics.armsmart_reward_state_metric:ARMSmartRewardStateMetric"
+        }
+      }
+    ]
+  },
+  "reward": {
+    "progress_scale": 4.4,
+    "alignment_scale": 1.9,
+    "pregrasp_scale": 1.4,
+    "reachability_scale": 0.7,
+    "visibility_scale": 0.6,
+    "energy_scale": 0.1,
+    "battery_margin_scale": 0.25,
+    "safety_scale": 3.0,
+    "vertical_error_scale": 0.8,
+    "success_bonus": 14.0
+  },
+  "logs": {
+    "run_dir": "logs/examples/inference/armsmart_pytorch_complete"
+  }
+}

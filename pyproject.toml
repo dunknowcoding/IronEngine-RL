@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ironengine-rl"
+version = "0.1.0"
+description = "Simulation-first RL runtime inspired by Chapter 7 Figure 7.1 for ARMSmart-compatible robots"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "DunknowCoding" }
+]
+dependencies = []
+
+[project.optional-dependencies]
+llm = [
+  "requests>=2.31",
+]
+hardware = [
+  "pyserial>=3.5",
+  "opencv-python>=4.9",
+]
+torch = [
+  "torch>=2.2",
+]
+examples = [
+  "requests>=2.31",
+  "torch>=2.2",
+  "pyserial>=3.5",
+  "opencv-python>=4.9",
+]
+all = [
+  "requests>=2.31",
+  "torch>=2.2",
+  "pyserial>=3.5",
+  "opencv-python>=4.9",
+]
+
+[project.scripts]
+ironengine-rl = "ironengine_rl.cli:main"
+ironengine-rl-diagnose = "ironengine_rl.diagnostics:main"
+ironengine-rl-describe = "ironengine_rl.describe:main"
+ironengine-rl-scaffold-hardware = "ironengine_rl.scaffold:main"
+ironengine-rl-validate = "ironengine_rl.validate:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

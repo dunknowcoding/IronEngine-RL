@@ -1,0 +1,45 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">IronEngine-RL Mark</title>
+  <desc id="desc">Compact brand mark for IronEngine-RL using a robotics head, neural links, and a central control core.</desc>
+  <defs>
+    <linearGradient id="bg" x1="64" y1="48" x2="448" y2="464" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07111F"/>
+      <stop offset="0.5" stop-color="#122B4D"/>
+      <stop offset="1" stop-color="#081824"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="124" y1="302" x2="260" y2="160" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#34C8FF"/>
+      <stop offset="1" stop-color="#91F1FF"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="256" y1="170" x2="390" y2="302" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B74FF"/>
+      <stop offset="1" stop-color="#E06FFF"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="244" y1="256" x2="196" y2="404" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFB04F"/>
+      <stop offset="1" stop-color="#FF7246"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="40" fill="url(#bg)"/>
+  <g opacity="0.14">
+    <path d="M64 104H448" stroke="#7FD9FF" stroke-width="1.4" stroke-dasharray="7 9"/>
+    <path d="M64 408H448" stroke="#7FD9FF" stroke-width="1.4" stroke-dasharray="7 9"/>
+    <path d="M104 64V448" stroke="#7FD9FF" stroke-width="1.4" stroke-dasharray="7 9"/>
+    <path d="M408 64V448" stroke="#7FD9FF" stroke-width="1.4" stroke-dasharray="7 9"/>
+  </g>
+  <circle cx="144" cy="250" r="26" fill="#081B2C" stroke="#5AD8FF" stroke-width="5"/>
+  <circle cx="256" cy="178" r="28" fill="#081B2C" stroke="#7BE8FF" stroke-width="5"/>
+  <circle cx="364" cy="252" r="26" fill="#081B2C" stroke="#A17EFF" stroke-width="5"/>
+  <circle cx="212" cy="372" r="26" fill="#081B2C" stroke="#FFA15D" stroke-width="5"/>
+  <path d="M144 250C174 224 210 198 256 178" stroke="url(#cyan)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M256 178C299 193 334 216 364 252" stroke="url(#violet)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M256 178C256 252 248 316 212 372" stroke="url(#orange)" stroke-width="8" stroke-linecap="round"/>
+  <g>
+    <circle cx="343" cy="338" r="72" fill="#0D1E33" stroke="#A17EFF" stroke-width="4"/>
+    <circle cx="343" cy="338" r="17" fill="#FFF3DA"/>
+    <circle cx="315" cy="326" r="8" fill="#92F0FF"/>
+    <circle cx="371" cy="326" r="8" fill="#FFB1E6"/>
+    <path d="M302 360C314 340 328 332 343 332C358 332 372 340 384 360" stroke="#AEEFFF" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <text x="256" y="84" fill="#F0FBFF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="26" font-weight="700" text-anchor="middle">IronEngine-RL</text>
+</svg>

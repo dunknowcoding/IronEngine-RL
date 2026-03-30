@@ -1,0 +1,11 @@
+# Core framework dependencies for the expanded example library.
+requests>=2.31
+torch>=2.2
+pyserial>=3.5
+opencv-python>=4.9
+
+# Dependency notes:
+# - `requests` supports local Ollama / LM Studio / cloud HTTP-backed integrations.
+# - `torch` powers the custom PyTorch example and trainable provider workflows.
+# - `pyserial` supports the ARMSmart HIL serial transport example.
+# - `opencv-python` supports the ARMSmart HIL camera example when `hardware.cameras.backend` is `opencv`.

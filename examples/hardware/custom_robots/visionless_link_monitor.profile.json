@@ -1,0 +1,107 @@
+{
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "platform": {
+    "name": "visionless_link_monitor",
+    "type": "custom_hardware",
+    "description": "Visionless telemetry and safety validation profile.",
+    "capabilities": {
+      "transport_backends": [
+        "udp"
+      ],
+      "observation_fields": [
+        "connection_alive",
+        "battery_level",
+        "collision_risk",
+        "arm_height",
+        "arm_extension"
+      ],
+      "camera_roles": [],
+      "action_channels": [
+        "chassis_forward",
+        "chassis_strafe",
+        "chassis_turn",
+        "arm_lift",
+        "arm_extend",
+        "wrist_yaw",
+        "gripper_close"
+      ],
+      "safety_features": [
+        "battery_threshold",
+        "connection_required",
+        "stale_observation_check"
+      ],
+      "timing": {
+        "transport_timeout_s": 0.05
+      }
+    }
+  },
+  "transport": {
+    "backend": "udp",
+    "host": "127.0.0.1",
+    "port": 9100,
+    "timeout_s": 0.05
+  },
+  "model_provider": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.inference.visionless_inference_provider:VisionlessInferenceProvider"
+    },
+    "contract": {
+      "observation_fields": [
+        "connection_alive",
+        "battery_level",
+        "collision_risk",
+        "arm_height",
+        "arm_extension"
+      ],
+      "camera_roles": []
+    }
+  },
+  "agent": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.agents.stability_agent:StabilityAgent"
+    }
+  },
+  "boundary_conditions": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.safety.connection_aware_policy:ConnectionAwareSafetyPolicy"
+    },
+    "contract": {
+      "observation_fields": [
+        "connection_alive",
+        "battery_level",
+        "collision_risk"
+      ]
+    },
+    "connection_hold_threshold": 0.6
+  },
+  "evaluation": {
+    "task": {
+      "name": "hardware_link_validation",
+      "contract": {
+        "observation_fields": [
+          "connection_alive",
+          "battery_level",
+          "collision_risk"
+        ],
+        "camera_roles": []
+      }
+    },
+    "metrics": [
+      "boundary_violations"
+    ]
+  },
+  "safety": {
+    "connection_required": true,
+    "low_battery_stop_threshold": 0.2,
+    "stale_observation_stop_steps": 2
+  },
+  "logs": {
+    "run_dir": "logs/examples/hardware/custom_robots/visionless_link_monitor"
+  }
+}

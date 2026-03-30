@@ -1,0 +1,13 @@
+{
+  "model_provider": {
+    "type": "pytorch_trainable",
+    "weights_file": "profiles/model_weights/linear_policy.json",
+    "grasp_threshold": 0.35,
+    "torch_device": "cpu",
+    "update_strategy": {
+      "type": "repository_linear_blend",
+      "blend_factor": 0.12,
+      "success_gain": 0.08
+    }
+  }
+}

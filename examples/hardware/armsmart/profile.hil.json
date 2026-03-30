@@ -1,0 +1,85 @@
+{
+  "hardware": {
+    "platform": {
+      "name": "armsmart_reference_hil_example",
+      "type": "armsmart_reference",
+      "description": "Example ARMSmart HIL profile for integrating a real robot into IronEngine-RL."
+    },
+    "connection": {
+      "backend": "serial",
+      "default_mode": "arm",
+      "timeout_s": 0.05,
+      "read_chunk_size": 256,
+      "ble_enabled": true,
+      "serial": {
+        "port": "COM5",
+        "baud_rate": 115200
+      },
+      "udp": {
+        "host": "192.168.4.1",
+        "port": 9000,
+        "timeout_s": 0.05
+      }
+    },
+    "protocol": {
+      "commands": {
+        "ping": 1,
+        "pong": 2,
+        "set_mode_arm": 16,
+        "set_mode_car": 17,
+        "mode_ack": 18,
+        "servo_set": 32,
+        "servo_freeze": 35,
+        "servo_enable": 36,
+        "motor_set": 48,
+        "servo_estop": 37,
+        "motor_estop": 51,
+        "servo_name_set": 65,
+        "servo_name_get": 66,
+        "servo_name_reply": 67
+      }
+    },
+    "cameras": {
+      "backend": "opencv",
+      "dash": {
+        "camera_id": "dash_cam_hw",
+        "device_index": 0,
+        "role": "dash"
+      },
+      "claw": {
+        "camera_id": "claw_cam_hw",
+        "device_index": 1,
+        "role": "claw"
+      }
+    },
+    "safety": {
+      "max_chassis_speed": 0.4,
+      "max_turn_rate": 0.35,
+      "max_arm_speed": 0.45,
+      "collision_stop_threshold": 0.75,
+      "stale_observation_stop_steps": 2,
+      "connection_required": true,
+      "low_battery_stop_threshold": 0.18,
+      "max_arm_extension": 0.8,
+      "max_gripper_close": 1.0
+    }
+  },
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "model_provider": {
+    "type": "linear_policy",
+    "weights_file": "profiles/model_weights/linear_policy.json",
+    "grasp_threshold": 0.35
+  },
+  "evaluation": {
+    "task": "hardware_link_validation",
+    "metrics": [
+      "boundary_violations"
+    ]
+  },
+  "logs": {
+    "run_dir": "logs/examples/hardware/armsmart/hil"
+  }
+}

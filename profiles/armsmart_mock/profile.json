@@ -1,0 +1,222 @@
+{
+  "hardware": {
+    "platform": {
+      "name": "armsmart_reference_mock",
+      "type": "armsmart_reference",
+      "description": "ARMSmart reference robot mock transport example using grouped IronEngine-RL hardware configuration."
+    },
+    "connection": {
+      "backend": "mock",
+      "default_mode": "arm",
+      "timeout_s": 0.05,
+      "read_chunk_size": 256,
+      "ble_enabled": true,
+      "serial": {
+        "port": "COM5",
+        "baud_rate": 115200
+      },
+      "udp": {
+        "host": "127.0.0.1",
+        "port": 9000,
+        "timeout_s": 0.05
+      }
+    },
+    "protocol": {
+      "commands": {
+        "ping": 1,
+        "pong": 2,
+        "set_mode_arm": 16,
+        "set_mode_car": 17,
+        "mode_ack": 18,
+        "servo_set": 32,
+        "servo_freeze": 35,
+        "servo_enable": 36,
+        "motor_set": 48,
+        "servo_estop": 37,
+        "motor_estop": 51,
+        "servo_name_set": 65,
+        "servo_name_get": 66,
+        "servo_name_reply": 67
+      }
+    },
+    "cameras": {
+      "backend": "placeholder",
+      "dash": {
+        "camera_id": "dash_cam_hw",
+        "device_index": 0,
+        "role": "dash"
+      },
+      "claw": {
+        "camera_id": "claw_cam_hw",
+        "device_index": 1,
+        "role": "claw"
+      }
+    },
+    "safety": {
+      "max_chassis_speed": 0.5,
+      "max_turn_rate": 0.4,
+      "max_arm_speed": 0.5,
+      "collision_stop_threshold": 0.8,
+      "stale_observation_stop_steps": 3,
+      "connection_required": true,
+      "low_battery_stop_threshold": 0.15,
+      "max_arm_extension": 0.85,
+      "max_gripper_close": 1.0
+    },
+    "mock": {
+      "active_scenario": "nominal",
+      "packets": [
+        {
+          "timestamp_s": 0.1,
+          "connection_alive": 1.0,
+          "battery_level": 0.92,
+          "collision_risk": 0.05,
+          "object_grasped": 0.0,
+          "imu_roll_deg": 4.5,
+          "imu_pitch_deg": -2.0,
+          "imu_yaw_deg": 11.0,
+          "dash_visibility": 0.78,
+          "claw_visibility": 0.42
+        },
+        {
+          "timestamp_s": 0.2,
+          "connection_alive": 1.0,
+          "battery_level": 0.91,
+          "collision_risk": 0.08,
+          "object_grasped": 0.0,
+          "imu_roll_deg": 4.2,
+          "imu_pitch_deg": -1.8,
+          "imu_yaw_deg": 10.6,
+          "dash_visibility": 0.81,
+          "claw_visibility": 0.47
+        }
+      ],
+      "scenarios": {
+        "nominal": [
+          {
+            "timestamp_s": 0.1,
+            "connection_alive": 1.0,
+            "battery_level": 0.92,
+            "collision_risk": 0.05,
+            "object_grasped": 0.0,
+            "imu_roll_deg": 4.5,
+            "imu_pitch_deg": -2.0,
+            "imu_yaw_deg": 11.0,
+            "dash_visibility": 0.78,
+            "claw_visibility": 0.42
+          },
+          {
+            "timestamp_s": 0.2,
+            "connection_alive": 1.0,
+            "battery_level": 0.91,
+            "collision_risk": 0.08,
+            "object_grasped": 0.0,
+            "imu_roll_deg": 4.2,
+            "imu_pitch_deg": -1.8,
+            "imu_yaw_deg": 10.6,
+            "dash_visibility": 0.81,
+            "claw_visibility": 0.47
+          }
+        ],
+        "grasp_success": [
+          {
+            "timestamp_s": 0.1,
+            "connection_alive": 1.0,
+            "battery_level": 0.88,
+            "collision_risk": 0.04,
+            "object_grasped": 0.0,
+            "imu_roll_deg": 3.8,
+            "imu_pitch_deg": -1.2,
+            "imu_yaw_deg": 8.0,
+            "dash_visibility": 0.84,
+            "claw_visibility": 0.71
+          },
+          {
+            "timestamp_s": 0.2,
+            "connection_alive": 1.0,
+            "battery_level": 0.87,
+            "collision_risk": 0.05,
+            "object_grasped": 1.0,
+            "imu_roll_deg": 3.9,
+            "imu_pitch_deg": -1.0,
+            "imu_yaw_deg": 8.2,
+            "dash_visibility": 0.79,
+            "claw_visibility": 0.93
+          }
+        ],
+        "collision_spike": [
+          {
+            "timestamp_s": 0.1,
+            "connection_alive": 1.0,
+            "battery_level": 0.83,
+            "collision_risk": 0.22,
+            "object_grasped": 0.0,
+            "imu_roll_deg": 6.1,
+            "imu_pitch_deg": -3.4,
+            "imu_yaw_deg": 14.0,
+            "dash_visibility": 0.69,
+            "claw_visibility": 0.38
+          },
+          {
+            "timestamp_s": 0.2,
+            "connection_alive": 1.0,
+            "battery_level": 0.82,
+            "collision_risk": 0.94,
+            "object_grasped": 0.0,
+            "imu_roll_deg": 8.4,
+            "imu_pitch_deg": -6.7,
+            "imu_yaw_deg": 18.5,
+            "dash_visibility": 0.41,
+            "claw_visibility": 0.19
+          }
+        ],
+        "low_battery": [
+          {
+            "timestamp_s": 0.1,
+            "connection_alive": 1.0,
+            "battery_level": 0.24,
+            "collision_risk": 0.06,
+            "object_grasped": 0.0,
+            "imu_roll_deg": 2.2,
+            "imu_pitch_deg": -0.8,
+            "imu_yaw_deg": 5.6,
+            "dash_visibility": 0.76,
+            "claw_visibility": 0.44
+          },
+          {
+            "timestamp_s": 0.2,
+            "connection_alive": 1.0,
+            "battery_level": 0.18,
+            "collision_risk": 0.11,
+            "object_grasped": 0.0,
+            "imu_roll_deg": 2.6,
+            "imu_pitch_deg": -1.0,
+            "imu_yaw_deg": 5.9,
+            "dash_visibility": 0.73,
+            "claw_visibility": 0.41
+          }
+        ],
+        "reactive_grasp": []
+      }
+    }
+  },
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "model_provider": {
+    "type": "custom_model",
+    "weights_file": "profiles/model_weights/linear_policy.json",
+    "grasp_threshold": 0.35
+  },
+  "logs": {
+    "run_dir": "logs/armsmart_mock"
+  },
+  "future_components": [
+    "depth_sensor",
+    "force_torque_sensor",
+    "wheel_encoder_array",
+    "environmental_sensor_pack",
+    "third_camera"
+  ]
+}

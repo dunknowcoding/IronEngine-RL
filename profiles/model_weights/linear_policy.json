@@ -1,0 +1,13 @@
+{
+  "bias": -0.1,
+  "object_distance": -0.55,
+  "heading_error_abs": -0.012,
+  "claw_alignment": 0.7,
+  "pregrasp_ready": 0.9,
+  "target_reachable": 0.35,
+  "visibility": 0.25,
+  "battery_level": 0.08,
+  "collision_risk": -0.4,
+  "arm_extension": 0.18,
+  "arm_height": -0.08
+}

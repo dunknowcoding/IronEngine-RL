@@ -1,0 +1,102 @@
+{
+  "framework": {
+    "modules": {
+      "evaluation": {
+        "task": "tabletop_grasp",
+        "metrics": [
+          "task_performance",
+          "boundary_violations"
+        ]
+      },
+      "inference_engine": {
+        "type": "linear_policy",
+        "weights_file": "profiles/model_weights/linear_policy.json",
+        "grasp_threshold": 0.35
+      },
+      "update_strategy": {
+        "type": "repository_linear_blend"
+      },
+      "agent": {
+        "type": "heuristic"
+      },
+      "repository": {
+        "type": "knowledge_repository"
+      },
+      "boundary_conditions": {
+        "enabled": true
+      }
+    }
+  },
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "platform": {
+    "name": "custom_hardware_generic",
+    "type": "custom_hardware",
+    "description": "Example generic hardware manifest for future non-ARMSmart integrations.",
+    "capabilities": {
+      "transport_backends": [
+        "serial",
+        "udp"
+      ],
+      "observation_fields": [
+        "object_dx",
+        "object_dy",
+        "claw_alignment",
+        "arm_extension",
+        "arm_height",
+        "battery_level",
+        "collision_risk",
+        "connection_alive",
+        "gripper_close"
+      ],
+      "camera_roles": [
+        "dash",
+        "claw"
+      ],
+      "action_channels": [
+        "chassis_forward",
+        "chassis_strafe",
+        "chassis_turn",
+        "arm_lift",
+        "arm_extend",
+        "wrist_yaw",
+        "gripper_close"
+      ],
+      "safety_features": [
+        "battery_threshold",
+        "collision_threshold",
+        "stale_observation_check"
+      ],
+      "timing": {
+        "transport_timeout_s": 0.05
+      }
+    }
+  },
+  "transport": {
+    "backend": "mock",
+    "timeout_s": 0.05,
+    "read_chunk_size": 256,
+    "default_mode": "arm"
+  },
+  "vision": {
+    "backend": "placeholder",
+    "dash_role": "dash",
+    "claw_role": "claw"
+  },
+  "safety": {
+    "max_chassis_speed": 0.7,
+    "max_turn_rate": 0.6,
+    "max_arm_speed": 0.7,
+    "collision_stop_threshold": 0.88,
+    "stale_observation_stop_steps": 3,
+    "connection_required": true,
+    "low_battery_stop_threshold": 0.15,
+    "max_arm_extension": 0.85,
+    "max_gripper_close": 1.0
+  },
+  "logs": {
+    "run_dir": "logs/custom_hardware_generic"
+  }
+}

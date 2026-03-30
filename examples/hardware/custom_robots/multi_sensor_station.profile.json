@@ -1,0 +1,308 @@
+{
+  "hardware": {
+    "platform": {
+      "name": "multi_sensor_station",
+      "type": "custom_hardware",
+      "description": "Mock-safe multi-sensor custom robot profile demonstrating depth, lidar, ranging, IMU, environmental, pressure, gesture, and audio-oriented signals.",
+      "capabilities": {
+        "transport_backends": [
+          "mock",
+          "serial",
+          "udp"
+        ],
+        "observation_fields": [
+          "connection_alive",
+          "battery_level",
+          "collision_risk",
+          "object_dx",
+          "object_dy",
+          "arm_height",
+          "arm_extension",
+          "claw_alignment",
+          "gripper_close",
+          "front_range_m",
+          "claw_range_m",
+          "lidar_front_clearance_m",
+          "lidar_left_clearance_m",
+          "lidar_right_clearance_m",
+          "imu_roll_deg",
+          "imu_pitch_deg",
+          "imu_yaw_deg",
+          "ambient_temp_c",
+          "humidity_pct",
+          "air_quality_index",
+          "gripper_pressure_kpa",
+          "operator_stop_gesture",
+          "gesture_confidence",
+          "audio_alarm_score",
+          "speech_command_confidence"
+        ],
+        "camera_roles": [
+          "dash",
+          "claw",
+          "depth_front",
+          "depth_wrist"
+        ],
+        "action_channels": [
+          "chassis_forward",
+          "chassis_strafe",
+          "chassis_turn",
+          "arm_lift",
+          "arm_extend",
+          "wrist_yaw",
+          "gripper_close"
+        ],
+        "safety_features": [
+          "collision_threshold",
+          "battery_threshold",
+          "connection_required",
+          "stale_observation_check",
+          "front_range_threshold",
+          "temperature_warning"
+        ],
+        "timing": {
+          "transport_timeout_s": 0.05,
+          "read_chunk_size": 256
+        }
+      }
+    },
+    "connection": {
+      "backend": "mock",
+      "default_mode": "arm",
+      "timeout_s": 0.05,
+      "read_chunk_size": 256,
+      "ble_enabled": false,
+      "serial": {
+        "port": "COM6",
+        "baud_rate": 115200
+      },
+      "udp": {
+        "host": "127.0.0.1",
+        "port": 9200,
+        "timeout_s": 0.05
+      }
+    },
+    "protocol": {
+      "commands": {
+        "ping": 1,
+        "pong": 2,
+        "set_mode_arm": 16,
+        "servo_set": 32,
+        "motor_set": 48
+      }
+    },
+    "cameras": {
+      "backend": "placeholder",
+      "dash": {
+        "camera_id": "dash_cam_multi",
+        "device_index": 0,
+        "role": "dash"
+      },
+      "claw": {
+        "camera_id": "claw_cam_multi",
+        "device_index": 1,
+        "role": "claw"
+      },
+      "depth_front": {
+        "camera_id": "depth_front_multi",
+        "device_index": 2,
+        "role": "depth_front"
+      },
+      "depth_wrist": {
+        "camera_id": "depth_wrist_multi",
+        "device_index": 3,
+        "role": "depth_wrist"
+      }
+    },
+    "sensors": {
+      "imu": {
+        "enabled": true,
+        "frame": "base_link",
+        "fields": [
+          "imu_roll_deg",
+          "imu_pitch_deg",
+          "imu_yaw_deg"
+        ]
+      },
+      "lidar": {
+        "enabled": true,
+        "transport": "udp",
+        "fields": [
+          "lidar_front_clearance_m",
+          "lidar_left_clearance_m",
+          "lidar_right_clearance_m"
+        ]
+      },
+      "ranging": {
+        "enabled": true,
+        "fields": [
+          "front_range_m",
+          "claw_range_m"
+        ]
+      },
+      "environment": {
+        "enabled": true,
+        "fields": [
+          "ambient_temp_c",
+          "humidity_pct",
+          "air_quality_index"
+        ]
+      },
+      "pressure": {
+        "enabled": true,
+        "fields": [
+          "gripper_pressure_kpa"
+        ]
+      },
+      "gesture": {
+        "enabled": true,
+        "fields": [
+          "operator_stop_gesture",
+          "gesture_confidence"
+        ]
+      },
+      "audio": {
+        "enabled": true,
+        "fields": [
+          "audio_alarm_score",
+          "speech_command_confidence"
+        ]
+      }
+    },
+    "safety": {
+      "max_chassis_speed": 0.45,
+      "max_turn_rate": 0.35,
+      "max_arm_speed": 0.45,
+      "collision_stop_threshold": 0.78,
+      "stale_observation_stop_steps": 3,
+      "connection_required": true,
+      "low_battery_stop_threshold": 0.18,
+      "front_range_stop_threshold_m": 0.2,
+      "motor_temp_warn_threshold_c": 65.0,
+      "air_quality_warn_threshold": 150.0,
+      "max_arm_extension": 0.82,
+      "max_gripper_close": 1.0
+    },
+    "mock": {
+      "active_scenario": "sensor_rich_nominal",
+      "packets": [],
+      "scenarios": {
+        "sensor_rich_nominal": []
+      }
+    }
+  },
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "model_provider": {
+    "type": "linear_policy",
+    "weights_file": "profiles/model_weights/linear_policy.json",
+    "contract": {
+      "observation_fields": [
+        "connection_alive",
+        "battery_level",
+        "collision_risk",
+        "object_dx",
+        "object_dy",
+        "front_range_m",
+        "claw_range_m",
+        "lidar_front_clearance_m",
+        "imu_roll_deg",
+        "imu_pitch_deg",
+        "imu_yaw_deg",
+        "ambient_temp_c",
+        "humidity_pct",
+        "air_quality_index",
+        "gripper_pressure_kpa",
+        "gesture_confidence",
+        "audio_alarm_score"
+      ],
+      "camera_roles": [
+        "dash",
+        "claw",
+        "depth_front",
+        "depth_wrist"
+      ]
+    }
+  },
+  "agent": {
+    "type": "heuristic"
+  },
+  "boundary_conditions": {
+    "type": "safety_controller",
+    "contract": {
+      "observation_fields": [
+        "battery_level",
+        "collision_risk",
+        "front_range_m",
+        "connection_alive"
+      ]
+    }
+  },
+  "evaluation": {
+    "task": {
+      "name": "hardware_link_validation",
+      "contract": {
+        "observation_fields": [
+          "connection_alive",
+          "battery_level",
+          "collision_risk",
+          "front_range_m",
+          "imu_roll_deg",
+          "air_quality_index"
+        ],
+        "camera_roles": [
+          "dash",
+          "claw",
+          "depth_front",
+          "depth_wrist"
+        ]
+      }
+    },
+    "metrics": [
+      "boundary_violations"
+    ]
+  },
+  "action_scheme": {
+    "name": "multi_sensor_guarded_schedule",
+    "command_channels": [
+      "chassis_forward",
+      "chassis_strafe",
+      "chassis_turn",
+      "arm_lift",
+      "arm_extend",
+      "wrist_yaw",
+      "gripper_close"
+    ],
+    "feedback_fields": [
+      "connection_alive",
+      "battery_level",
+      "collision_risk",
+      "front_range_m",
+      "claw_range_m",
+      "lidar_front_clearance_m",
+      "imu_roll_deg",
+      "imu_pitch_deg",
+      "imu_yaw_deg",
+      "ambient_temp_c",
+      "air_quality_index",
+      "gesture_confidence",
+      "audio_alarm_score"
+    ],
+    "result_fields": [
+      "reward.total",
+      "reward.components",
+      "done",
+      "info"
+    ],
+    "schedule_notes": [
+      "treat front range and collision risk as gates before forward motion",
+      "use IMU stability and depth feedback before aggressive arm extension",
+      "log environmental and audio-derived warnings without forcing every signal into control logic"
+    ]
+  },
+  "logs": {
+    "run_dir": "logs/examples/hardware/custom_robots/multi_sensor_station"
+  }
+}

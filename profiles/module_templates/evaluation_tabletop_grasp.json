@@ -1,0 +1,10 @@
+{
+  "evaluation": {
+    "task": "tabletop_grasp",
+    "metrics": [
+      "task_performance",
+      "boundary_violations"
+    ],
+    "success_signal": "object_grasped > 0.5"
+  }
+}

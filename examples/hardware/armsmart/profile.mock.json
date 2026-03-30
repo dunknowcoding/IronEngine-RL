@@ -1,0 +1,166 @@
+{
+  "hardware": {
+    "platform": {
+      "name": "armsmart_reference_mock_example",
+      "type": "armsmart_reference",
+      "description": "Example ARMSmart mock profile for validating IronEngine-RL hardware integration."
+    },
+    "connection": {
+      "backend": "mock",
+      "default_mode": "arm",
+      "timeout_s": 0.05,
+      "read_chunk_size": 256,
+      "ble_enabled": true,
+      "serial": {
+        "port": "COM5",
+        "baud_rate": 115200
+      },
+      "udp": {
+        "host": "127.0.0.1",
+        "port": 9000,
+        "timeout_s": 0.05
+      }
+    },
+    "protocol": {
+      "commands": {
+        "ping": 1,
+        "pong": 2,
+        "set_mode_arm": 16,
+        "set_mode_car": 17,
+        "mode_ack": 18,
+        "servo_set": 32,
+        "servo_freeze": 35,
+        "servo_enable": 36,
+        "motor_set": 48,
+        "servo_estop": 37,
+        "motor_estop": 51,
+        "servo_name_set": 65,
+        "servo_name_get": 66,
+        "servo_name_reply": 67
+      }
+    },
+    "cameras": {
+      "backend": "placeholder",
+      "dash": {
+        "camera_id": "dash_cam_hw",
+        "device_index": 0,
+        "role": "dash"
+      },
+      "claw": {
+        "camera_id": "claw_cam_hw",
+        "device_index": 1,
+        "role": "claw"
+      }
+    },
+    "safety": {
+      "max_chassis_speed": 0.5,
+      "max_turn_rate": 0.4,
+      "max_arm_speed": 0.5,
+      "collision_stop_threshold": 0.8,
+      "stale_observation_stop_steps": 3,
+      "connection_required": true,
+      "low_battery_stop_threshold": 0.15,
+      "max_arm_extension": 0.85,
+      "max_gripper_close": 1.0
+    },
+    "mock": {
+      "active_scenario": "nominal",
+      "packets": [
+        {
+          "timestamp_s": 0.1,
+          "connection_alive": 1.0,
+          "battery_level": 0.92,
+          "collision_risk": 0.05,
+          "object_grasped": 0.0,
+          "object_dx": 0.56,
+          "object_dy": 0.08,
+          "imu_roll_deg": 4.5,
+          "imu_pitch_deg": -2.0,
+          "imu_yaw_deg": 11.0,
+          "arm_height": 0.18,
+          "arm_extension": 0.24,
+          "claw_alignment": 0.66,
+          "gripper_close": 0.12,
+          "dash_visibility": 0.78,
+          "claw_visibility": 0.42
+        },
+        {
+          "timestamp_s": 0.2,
+          "connection_alive": 1.0,
+          "battery_level": 0.91,
+          "collision_risk": 0.08,
+          "object_grasped": 0.0,
+          "object_dx": 0.42,
+          "object_dy": 0.05,
+          "imu_roll_deg": 4.2,
+          "imu_pitch_deg": -1.8,
+          "imu_yaw_deg": 10.6,
+          "arm_height": 0.22,
+          "arm_extension": 0.32,
+          "claw_alignment": 0.73,
+          "gripper_close": 0.18,
+          "dash_visibility": 0.81,
+          "claw_visibility": 0.47
+        }
+      ],
+      "scenarios": {
+        "nominal": [
+          {
+            "timestamp_s": 0.1,
+            "connection_alive": 1.0,
+            "battery_level": 0.92,
+            "collision_risk": 0.05,
+            "object_grasped": 0.0,
+            "object_dx": 0.56,
+            "object_dy": 0.08,
+            "imu_roll_deg": 4.5,
+            "imu_pitch_deg": -2.0,
+            "imu_yaw_deg": 11.0,
+            "arm_height": 0.18,
+            "arm_extension": 0.24,
+            "claw_alignment": 0.66,
+            "gripper_close": 0.12,
+            "dash_visibility": 0.78,
+            "claw_visibility": 0.42
+          },
+          {
+            "timestamp_s": 0.2,
+            "connection_alive": 1.0,
+            "battery_level": 0.91,
+            "collision_risk": 0.08,
+            "object_grasped": 0.0,
+            "object_dx": 0.42,
+            "object_dy": 0.05,
+            "imu_roll_deg": 4.2,
+            "imu_pitch_deg": -1.8,
+            "imu_yaw_deg": 10.6,
+            "arm_height": 0.22,
+            "arm_extension": 0.32,
+            "claw_alignment": 0.73,
+            "gripper_close": 0.18,
+            "dash_visibility": 0.81,
+            "claw_visibility": 0.47
+          }
+        ]
+      }
+    }
+  },
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "model_provider": {
+    "type": "linear_policy",
+    "weights_file": "profiles/model_weights/linear_policy.json",
+    "grasp_threshold": 0.35
+  },
+  "evaluation": {
+    "task": "hardware_link_validation",
+    "metrics": [
+      "boundary_violations"
+    ]
+  },
+  "logs": {
+    "run_dir": "logs/examples/hardware/armsmart/mock"
+  }
+}

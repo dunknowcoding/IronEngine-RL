@@ -1,0 +1,84 @@
+{
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "platform": {
+    "name": "udp_generic_arm",
+    "type": "custom_hardware",
+    "description": "Generic UDP-connected mobile manipulator profile.",
+    "capabilities": {
+      "transport_backends": [
+        "udp"
+      ],
+      "observation_fields": [
+        "connection_alive",
+        "battery_level",
+        "collision_risk",
+        "object_dx",
+        "object_dy",
+        "arm_height",
+        "arm_extension",
+        "claw_alignment",
+        "gripper_close"
+      ],
+      "camera_roles": [
+        "dash",
+        "claw"
+      ],
+      "action_channels": [
+        "chassis_forward",
+        "chassis_strafe",
+        "chassis_turn",
+        "arm_lift",
+        "arm_extend",
+        "wrist_yaw",
+        "gripper_close"
+      ],
+      "safety_features": [
+        "collision_threshold",
+        "battery_threshold",
+        "connection_required",
+        "stale_observation_check"
+      ],
+      "timing": {
+        "transport_timeout_s": 0.05,
+        "read_chunk_size": 256
+      }
+    }
+  },
+  "transport": {
+    "backend": "udp",
+    "host": "127.0.0.1",
+    "port": 9000,
+    "timeout_s": 0.05,
+    "read_chunk_size": 256
+  },
+  "vision": {
+    "backend": "placeholder",
+    "dash_role": "dash",
+    "claw_role": "claw"
+  },
+  "model_provider": {
+    "type": "rule_based"
+  },
+  "agent": {
+    "type": "heuristic"
+  },
+  "boundary_conditions": {
+    "type": "safety_controller"
+  },
+  "evaluation": {
+    "task": "hardware_link_validation",
+    "metrics": [
+      "boundary_violations"
+    ]
+  },
+  "logs": {
+    "run_dir": "logs/hardware_udp_generic"
+  },
+  "validation": {
+    "strict": false,
+    "require_compatibility": true
+  }
+}

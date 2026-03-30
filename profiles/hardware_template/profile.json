@@ -1,0 +1,125 @@
+{
+  "hardware": {
+    "platform": {
+      "name": "custom_robot_reference",
+      "type": "custom_hardware",
+      "description": "Template for integrating a new hardware platform into IronEngine-RL.",
+      "capabilities": {
+        "transport_backends": [
+          "serial",
+          "udp"
+        ],
+        "observation_fields": [
+          "connection_alive",
+          "battery_level",
+          "collision_risk",
+          "object_dx",
+          "object_dy",
+          "arm_height",
+          "arm_extension",
+          "claw_alignment",
+          "gripper_close"
+        ],
+        "camera_roles": [
+          "dash",
+          "claw"
+        ],
+        "action_channels": [
+          "chassis_forward",
+          "chassis_strafe",
+          "chassis_turn",
+          "arm_lift",
+          "arm_extend",
+          "wrist_yaw",
+          "gripper_close"
+        ],
+        "safety_features": [
+          "collision_threshold",
+          "battery_threshold",
+          "connection_required",
+          "stale_observation_check"
+        ],
+        "timing": {
+          "transport_timeout_s": 0.05,
+          "read_chunk_size": 256
+        }
+      }
+    },
+    "connection": {
+      "backend": "serial",
+      "default_mode": "arm",
+      "timeout_s": 0.05,
+      "read_chunk_size": 256,
+      "ble_enabled": false,
+      "serial": {
+        "port": "COM1",
+        "baud_rate": 115200
+      },
+      "udp": {
+        "host": "127.0.0.1",
+        "port": 9000,
+        "timeout_s": 0.05
+      }
+    },
+    "protocol": {
+      "commands": {
+        "ping": 1,
+        "pong": 2,
+        "set_mode_arm": 16,
+        "set_mode_car": 17,
+        "mode_ack": 18,
+        "servo_set": 32,
+        "motor_set": 48
+      }
+    },
+    "cameras": {
+      "backend": "placeholder",
+      "dash": {
+        "camera_id": "dash_cam_hw",
+        "device_index": 0,
+        "role": "dash"
+      },
+      "claw": {
+        "camera_id": "claw_cam_hw",
+        "device_index": 1,
+        "role": "claw"
+      }
+    },
+    "safety": {
+      "max_chassis_speed": 0.5,
+      "max_turn_rate": 0.4,
+      "max_arm_speed": 0.5,
+      "collision_stop_threshold": 0.8,
+      "stale_observation_stop_steps": 3,
+      "connection_required": true,
+      "low_battery_stop_threshold": 0.15,
+      "max_arm_extension": 0.85,
+      "max_gripper_close": 1.0
+    },
+    "mock": {
+      "active_scenario": "nominal",
+      "packets": [],
+      "scenarios": {
+        "nominal": []
+      }
+    }
+  },
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "model_provider": {
+    "type": "linear_policy",
+    "weights_file": "profiles/model_weights/linear_policy.json",
+    "grasp_threshold": 0.35
+  },
+  "evaluation": {
+    "task": "hardware_link_validation",
+    "metrics": [
+      "boundary_violations"
+    ]
+  },
+  "logs": {
+    "run_dir": "logs/custom_robot_reference"
+  }
+}

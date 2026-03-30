@@ -1,0 +1,141 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">IronEngine-RL Hero Artwork</title>
+  <desc id="desc">A futuristic hero illustration for IronEngine-RL combining robotics, reinforcement learning, safety boundaries, and intelligent control.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="1480" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07111F"/>
+      <stop offset="0.45" stop-color="#10284A"/>
+      <stop offset="1" stop-color="#061A2B"/>
+    </linearGradient>
+    <radialGradient id="haloLeft" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(480 340) rotate(90) scale(320 320)">
+      <stop stop-color="#4FD1FF" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#4FD1FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="haloRight" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1180 420) rotate(90) scale(340 340)">
+      <stop stop-color="#7D6BFF" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#7D6BFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="panel" x1="340" y1="210" x2="1280" y2="690" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F2742" stop-opacity="0.88"/>
+      <stop offset="1" stop-color="#0B1828" stop-opacity="0.92"/>
+    </linearGradient>
+    <linearGradient id="cyanStroke" x1="320" y1="280" x2="860" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#66E4FF"/>
+      <stop offset="1" stop-color="#2DC4FF"/>
+    </linearGradient>
+    <linearGradient id="purpleStroke" x1="780" y1="220" x2="1320" y2="660" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8F7CFF"/>
+      <stop offset="1" stop-color="#D469FF"/>
+    </linearGradient>
+    <linearGradient id="orangeStroke" x1="620" y1="430" x2="980" y2="740" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFB547"/>
+      <stop offset="1" stop-color="#FF6B3D"/>
+    </linearGradient>
+    <filter id="blurBig" x="40" y="0" width="1520" height="900" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="48"/>
+    </filter>
+    <filter id="glow" x="0" y="0" width="1600" height="900" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="softShadow" x="260" y="130" width="1100" height="640" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#03101B" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" rx="28" fill="url(#bg)"/>
+  <g filter="url(#blurBig)">
+    <circle cx="420" cy="260" r="210" fill="url(#haloLeft)"/>
+    <circle cx="1180" cy="430" r="240" fill="url(#haloRight)"/>
+  </g>
+
+  <g opacity="0.16">
+    <path d="M110 170H1490" stroke="#73C9FF" stroke-width="1.2" stroke-dasharray="8 10"/>
+    <path d="M95 275H1505" stroke="#73C9FF" stroke-width="1.2" stroke-dasharray="8 10"/>
+    <path d="M95 635H1505" stroke="#73C9FF" stroke-width="1.2" stroke-dasharray="8 10"/>
+    <path d="M180 100V800" stroke="#73C9FF" stroke-width="1.2" stroke-dasharray="8 10"/>
+    <path d="M480 100V800" stroke="#73C9FF" stroke-width="1.2" stroke-dasharray="8 10"/>
+    <path d="M820 100V800" stroke="#73C9FF" stroke-width="1.2" stroke-dasharray="8 10"/>
+    <path d="M1190 100V800" stroke="#73C9FF" stroke-width="1.2" stroke-dasharray="8 10"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="300" y="170" width="1000" height="560" rx="34" fill="url(#panel)" stroke="rgba(140,198,255,0.25)"/>
+  </g>
+
+  <rect x="332" y="202" width="936" height="496" rx="26" stroke="rgba(123,189,255,0.18)"/>
+
+  <g opacity="0.9">
+    <text x="800" y="286" fill="#E9F7FF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="68" font-weight="700" text-anchor="middle">IronEngine-RL</text>
+    <text x="800" y="336" fill="#8EDBFF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="26" font-weight="500" text-anchor="middle">AI-guided robotics runtime • contracts • safety • evaluation • adaptive control</text>
+  </g>
+
+  <g opacity="0.95">
+    <rect x="404" y="372" width="190" height="46" rx="23" fill="#0E3559" stroke="#57D9FF"/>
+    <text x="499" y="401" fill="#DFF9FF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18" font-weight="600" text-anchor="middle">Perception</text>
+
+    <rect x="626" y="372" width="190" height="46" rx="23" fill="#102B53" stroke="#7FD6FF"/>
+    <text x="721" y="401" fill="#DFF9FF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18" font-weight="600" text-anchor="middle">Inference</text>
+
+    <rect x="848" y="372" width="190" height="46" rx="23" fill="#2A225D" stroke="#A68CFF"/>
+    <text x="943" y="401" fill="#F0E9FF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18" font-weight="600" text-anchor="middle">Repository + RL</text>
+
+    <rect x="1070" y="372" width="160" height="46" rx="23" fill="#472043" stroke="#FF97D5"/>
+    <text x="1150" y="401" fill="#FFF0FB" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18" font-weight="600" text-anchor="middle">Safety</text>
+  </g>
+
+  <g filter="url(#glow)">
+    <path d="M498 540C570 488 642 448 718 438C770 432 824 438 876 458" stroke="url(#cyanStroke)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M878 458C948 486 1004 534 1053 590" stroke="url(#purpleStroke)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M716 438C712 504 706 568 678 620C662 649 636 678 602 700" stroke="url(#orangeStroke)" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <g>
+    <circle cx="498" cy="540" r="17" fill="#061A2B" stroke="#66E4FF" stroke-width="5"/>
+    <circle cx="718" cy="438" r="18" fill="#061A2B" stroke="#54D8FF" stroke-width="5"/>
+    <circle cx="878" cy="458" r="18" fill="#061A2B" stroke="#8E7CFF" stroke-width="5"/>
+    <circle cx="1053" cy="590" r="18" fill="#061A2B" stroke="#D274FF" stroke-width="5"/>
+    <circle cx="602" cy="700" r="18" fill="#061A2B" stroke="#FF9B4D" stroke-width="5"/>
+  </g>
+
+  <g opacity="0.95">
+    <path d="M506 541L560 507L628 521L648 584L603 632L541 627L506 541Z" fill="#0E2E4F" stroke="#57D9FF" stroke-width="3"/>
+    <circle cx="558" cy="549" r="8" fill="#8EEDFF"/>
+    <circle cx="603" cy="575" r="8" fill="#8EEDFF"/>
+    <path d="M558 549L603 575" stroke="#8EEDFF" stroke-width="3" stroke-linecap="round"/>
+    <path d="M603 575L628 521" stroke="#8EEDFF" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <g opacity="0.96">
+    <circle cx="1178" cy="583" r="94" fill="#0E1B32" stroke="#B07CFF" stroke-width="4"/>
+    <path d="M1132 613C1144 576 1168 555 1204 547C1235 541 1264 548 1283 568" stroke="#C9A8FF" stroke-width="5" stroke-linecap="round"/>
+    <path d="M1119 612L1090 662" stroke="#FF8A65" stroke-width="10" stroke-linecap="round"/>
+    <path d="M1243 626L1274 680" stroke="#57D9FF" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="1178" cy="583" r="18" fill="#FFF4D8"/>
+    <circle cx="1142" cy="576" r="9" fill="#8EEDFF"/>
+    <circle cx="1214" cy="576" r="9" fill="#FFB0E8"/>
+  </g>
+
+  <g opacity="0.95">
+    <rect x="390" y="620" width="255" height="58" rx="18" fill="#0A2239" stroke="#54D8FF"/>
+    <text x="517" y="656" fill="#E6FAFF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="22" font-weight="600" text-anchor="middle">Custom Providers</text>
+
+    <rect x="674" y="620" width="255" height="58" rx="18" fill="#111F3F" stroke="#8E7CFF"/>
+    <text x="801" y="656" fill="#F3EEFF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="22" font-weight="600" text-anchor="middle">Action Scheme</text>
+
+    <rect x="958" y="620" width="255" height="58" rx="18" fill="#241C3B" stroke="#FF9DDA"/>
+    <text x="1085" y="656" fill="#FFF1FB" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="22" font-weight="600" text-anchor="middle">Safe Deployment</text>
+  </g>
+
+  <g opacity="0.28">
+    <circle cx="250" cy="770" r="4" fill="#8EDBFF"/>
+    <circle cx="282" cy="744" r="3" fill="#8EDBFF"/>
+    <circle cx="315" cy="784" r="2.5" fill="#8EDBFF"/>
+    <circle cx="1360" cy="182" r="4" fill="#E4A8FF"/>
+    <circle cx="1312" cy="210" r="2.5" fill="#E4A8FF"/>
+    <circle cx="1402" cy="236" r="3" fill="#E4A8FF"/>
+    <circle cx="1444" cy="724" r="4" fill="#57D9FF"/>
+    <circle cx="1388" cy="758" r="2.5" fill="#57D9FF"/>
+  </g>
+</svg>

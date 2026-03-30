@@ -1,0 +1,193 @@
+{
+  "hardware": {
+    "platform": {
+      "name": "armsmart_ollama_complete_example",
+      "type": "armsmart_reference",
+      "description": "ARMSmart mock transport paired with a local LLM provider that consumes action-scheme and repository context."
+    },
+    "connection": {
+      "backend": "mock",
+      "default_mode": "arm",
+      "timeout_s": 0.05,
+      "read_chunk_size": 256,
+      "ble_enabled": true,
+      "serial": {
+        "port": "COM5",
+        "baud_rate": 115200
+      },
+      "udp": {
+        "host": "127.0.0.1",
+        "port": 9000,
+        "timeout_s": 0.05
+      }
+    },
+    "protocol": {
+      "commands": {
+        "ping": 1,
+        "pong": 2,
+        "set_mode_arm": 16,
+        "set_mode_car": 17,
+        "mode_ack": 18,
+        "servo_set": 32,
+        "motor_set": 48
+      }
+    },
+    "cameras": {
+      "backend": "placeholder",
+      "dash": {
+        "camera_id": "dash_cam_hw",
+        "device_index": 0,
+        "role": "dash"
+      },
+      "claw": {
+        "camera_id": "claw_cam_hw",
+        "device_index": 1,
+        "role": "claw"
+      }
+    },
+    "safety": {
+      "max_chassis_speed": 0.5,
+      "max_turn_rate": 0.4,
+      "max_arm_speed": 0.5,
+      "collision_stop_threshold": 0.8,
+      "stale_observation_stop_steps": 3,
+      "connection_required": true,
+      "low_battery_stop_threshold": 0.15,
+      "max_arm_extension": 0.85,
+      "max_gripper_close": 1.0
+    },
+    "mock": {
+      "active_scenario": "nominal",
+      "packets": [],
+      "scenarios": {
+        "nominal": [
+          {
+            "timestamp_s": 0.1,
+            "connection_alive": 1.0,
+            "battery_level": 0.9,
+            "collision_risk": 0.05,
+            "object_grasped": 0.0,
+            "object_dx": 0.48,
+            "object_dy": 0.04,
+            "arm_height": 0.22,
+            "arm_extension": 0.35,
+            "claw_alignment": 0.69,
+            "gripper_close": 0.15,
+            "dash_visibility": 0.82,
+            "claw_visibility": 0.51
+          }
+        ]
+      }
+    }
+  },
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "llm": {
+    "role_contract_file": "SOUL.md",
+    "task": {
+      "name": "right_bin_pick_place",
+      "goal": "Pick the target object from the right side of the workbench and place it in the drop zone.",
+      "success_criteria": [
+        "track the correct target during approach and pregrasp",
+        "finish the pick-and-place sequence with stable grasp and release"
+      ],
+      "constraints": [
+        "use repository and action-scheme context when selecting the next phase",
+        "do not bypass safety enforcement or fabricate unsupported actions"
+      ]
+    }
+  },
+  "action_scheme": {
+    "name": "armsmart_local_llm_schedule",
+    "command_channels": [
+      "chassis_forward",
+      "chassis_turn",
+      "arm_lift",
+      "arm_extend",
+      "gripper_close"
+    ],
+    "feedback_fields": [
+      "connection_alive",
+      "battery_level",
+      "collision_risk",
+      "object_dx",
+      "object_dy",
+      "claw_alignment",
+      "arm_extension",
+      "arm_height"
+    ],
+    "result_fields": [
+      "reward.total",
+      "done",
+      "info.success"
+    ],
+    "schedule_notes": [
+      "use repository notes and recent rewards as planning context for the local LLM",
+      "keep final safety enforcement outside the model"
+    ]
+  },
+  "model_provider": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.inference.armsmart_local_llm_provider:ARMSmartLocalLLMProvider"
+    },
+    "role_contract_file": "SOUL.md",
+    "model": "llama3.1:8b",
+    "base_url": "http://127.0.0.1:11434",
+    "prompt_template": "armsmart_complete_local",
+    "system_prompt": "You are the local ARMSmart planning module. Use action scheme, knowledge repository state, and recent rewards to recommend the next safe phase.",
+    "timeout_s": 20.0,
+    "contract": {
+      "observation_fields": [
+        "connection_alive",
+        "battery_level",
+        "collision_risk",
+        "object_dx",
+        "object_dy",
+        "claw_alignment",
+        "arm_extension",
+        "arm_height"
+      ],
+      "camera_roles": [
+        "dash",
+        "claw"
+      ]
+    }
+  },
+  "agent": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.agents.armsmart_action_scheme_agent:ARMSmartActionSchemeAgent"
+    }
+  },
+  "repository": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.repositories.armsmart_experiment_repository:ARMSmartExperimentRepository"
+    },
+    "database_file": "armsmart_local_llm_db.json"
+  },
+  "evaluation": {
+    "task": {
+      "type": "custom_plugin",
+      "name": "armsmart_pick_place_real_task",
+      "plugin": {
+        "module_path": "user_modules.examples.tasks.armsmart_pick_place_task:build_armsmart_pick_place_task"
+      }
+    },
+    "metrics": [
+      "boundary_violations",
+      {
+        "type": "custom_plugin",
+        "plugin": {
+          "module_path": "user_modules.examples.metrics.armsmart_reward_state_metric:ARMSmartRewardStateMetric"
+        }
+      }
+    ]
+  },
+  "logs": {
+    "run_dir": "logs/examples/inference/armsmart_ollama_complete"
+  }
+}

@@ -1,0 +1,94 @@
+<svg width="1600" height="640" viewBox="0 0 1600 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">IronEngine-RL Banner Artwork</title>
+  <desc id="desc">Wide banner artwork for IronEngine-RL with robotics, reinforcement learning, and safety-themed visuals.</desc>
+  <defs>
+    <linearGradient id="bg" x1="80" y1="60" x2="1520" y2="580" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07111F"/>
+      <stop offset="0.5" stop-color="#11294A"/>
+      <stop offset="1" stop-color="#061926"/>
+    </linearGradient>
+    <radialGradient id="leftGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(320 210) rotate(90) scale(220 220)">
+      <stop stop-color="#54D8FF" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#54D8FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="rightGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1300 220) rotate(90) scale(240 240)">
+      <stop stop-color="#9A7DFF" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#9A7DFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cyan" x1="210" y1="420" x2="630" y2="150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#39C9FF"/>
+      <stop offset="1" stop-color="#83EEFF"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="950" y1="160" x2="1370" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8A74FF"/>
+      <stop offset="1" stop-color="#DF6BFF"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="735" y1="380" x2="930" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFB24C"/>
+      <stop offset="1" stop-color="#FF7044"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="640" rx="28" fill="url(#bg)"/>
+  <circle cx="320" cy="210" r="220" fill="url(#leftGlow)"/>
+  <circle cx="1300" cy="220" r="240" fill="url(#rightGlow)"/>
+
+  <g opacity="0.18">
+    <path d="M100 120H1500" stroke="#79D3FF" stroke-width="1.4" stroke-dasharray="8 10"/>
+    <path d="M100 512H1500" stroke="#79D3FF" stroke-width="1.4" stroke-dasharray="8 10"/>
+    <path d="M160 74V566" stroke="#79D3FF" stroke-width="1.4" stroke-dasharray="8 10"/>
+    <path d="M520 74V566" stroke="#79D3FF" stroke-width="1.4" stroke-dasharray="8 10"/>
+    <path d="M990 74V566" stroke="#79D3FF" stroke-width="1.4" stroke-dasharray="8 10"/>
+    <path d="M1410 74V566" stroke="#79D3FF" stroke-width="1.4" stroke-dasharray="8 10"/>
+  </g>
+
+  <g>
+    <circle cx="285" cy="318" r="84" fill="#0A2138" stroke="#59DCFF" stroke-width="4"/>
+    <circle cx="285" cy="318" r="24" fill="#E8FCFF"/>
+    <circle cx="250" cy="305" r="9" fill="#86EEFF"/>
+    <circle cx="320" cy="305" r="9" fill="#86EEFF"/>
+    <path d="M238 352C252 331 272 320 285 320C298 320 318 331 332 352" stroke="#86EEFF" stroke-width="5" stroke-linecap="round"/>
+    <path d="M214 358L168 432" stroke="#FF855F" stroke-width="12" stroke-linecap="round"/>
+    <path d="M356 358L404 434" stroke="#54D8FF" stroke-width="12" stroke-linecap="round"/>
+  </g>
+
+  <g>
+    <path d="M408 305C495 252 584 219 691 210C776 203 857 214 931 248" stroke="url(#cyan)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M931 248C1016 286 1099 340 1183 422" stroke="url(#violet)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M694 209C699 292 693 356 664 417C643 460 607 495 556 525" stroke="url(#orange)" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <g>
+    <circle cx="408" cy="305" r="16" fill="#081A2C" stroke="#54D8FF" stroke-width="5"/>
+    <circle cx="691" cy="210" r="17" fill="#081A2C" stroke="#66E5FF" stroke-width="5"/>
+    <circle cx="931" cy="248" r="17" fill="#081A2C" stroke="#9A7DFF" stroke-width="5"/>
+    <circle cx="1183" cy="422" r="17" fill="#081A2C" stroke="#D96EFF" stroke-width="5"/>
+    <circle cx="556" cy="525" r="17" fill="#081A2C" stroke="#FF9D58" stroke-width="5"/>
+  </g>
+
+  <g>
+    <text x="800" y="230" fill="#F0FBFF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="72" font-weight="700">IronEngine-RL</text>
+    <text x="802" y="286" fill="#8EDBFF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="22" font-weight="500">
+      <tspan x="802" dy="0">Modular robotics intelligence with contracts, safety,</tspan>
+      <tspan x="802" dy="30">evaluation, and adaptive control</tspan>
+    </text>
+  </g>
+
+  <g opacity="0.95">
+    <rect x="776" y="342" width="170" height="46" rx="23" fill="#0D3353" stroke="#59DCFF"/>
+    <text x="861" y="371" fill="#E7FBFF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18" font-weight="600" text-anchor="middle">Perception</text>
+    <rect x="966" y="342" width="170" height="46" rx="23" fill="#152A56" stroke="#8DCAFF"/>
+    <text x="1051" y="371" fill="#E7FBFF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18" font-weight="600" text-anchor="middle">Inference</text>
+    <rect x="1156" y="342" width="190" height="46" rx="23" fill="#282251" stroke="#A784FF"/>
+    <text x="1251" y="371" fill="#F6EFFF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18" font-weight="600" text-anchor="middle">Repository + RL</text>
+  </g>
+
+  <g opacity="0.95">
+    <rect x="804" y="424" width="180" height="50" rx="18" fill="#091D33" stroke="#58DAFF"/>
+    <text x="894" y="456" fill="#E6FAFF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Custom Models</text>
+    <rect x="1004" y="424" width="180" height="50" rx="18" fill="#111F40" stroke="#8E7CFF"/>
+    <text x="1094" y="456" fill="#F0ECFF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Action Scheme</text>
+    <rect x="1204" y="424" width="150" height="50" rx="18" fill="#281C3B" stroke="#FF97D9"/>
+    <text x="1279" y="456" fill="#FFF1FB" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Safety</text>
+  </g>
+</svg>

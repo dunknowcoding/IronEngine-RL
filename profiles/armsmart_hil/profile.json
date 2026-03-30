@@ -1,0 +1,86 @@
+{
+  "hardware": {
+    "platform": {
+      "name": "armsmart_reference_hil",
+      "type": "armsmart_reference",
+      "description": "ARMSmart reference robot using the grouped IronEngine-RL hardware integration shape."
+    },
+    "connection": {
+      "backend": "null",
+      "default_mode": "arm",
+      "timeout_s": 0.05,
+      "read_chunk_size": 256,
+      "ble_enabled": true,
+      "serial": {
+        "port": "COM5",
+        "baud_rate": 115200
+      },
+      "udp": {
+        "host": "127.0.0.1",
+        "port": 9000,
+        "timeout_s": 0.05
+      }
+    },
+    "protocol": {
+      "commands": {
+        "ping": 1,
+        "pong": 2,
+        "set_mode_arm": 16,
+        "set_mode_car": 17,
+        "mode_ack": 18,
+        "servo_set": 32,
+        "servo_freeze": 35,
+        "servo_enable": 36,
+        "motor_set": 48,
+        "servo_estop": 37,
+        "motor_estop": 51,
+        "servo_name_set": 65,
+        "servo_name_get": 66,
+        "servo_name_reply": 67
+      }
+    },
+    "cameras": {
+      "backend": "placeholder",
+      "dash": {
+        "camera_id": "dash_cam_hw",
+        "device_index": 0,
+        "role": "dash"
+      },
+      "claw": {
+        "camera_id": "claw_cam_hw",
+        "device_index": 1,
+        "role": "claw"
+      }
+    },
+    "safety": {
+      "max_chassis_speed": 0.5,
+      "max_turn_rate": 0.4,
+      "max_arm_speed": 0.5,
+      "collision_stop_threshold": 0.8,
+      "stale_observation_stop_steps": 3,
+      "connection_required": true,
+      "low_battery_stop_threshold": 0.15,
+      "max_arm_extension": 0.85,
+      "max_gripper_close": 1.0
+    }
+  },
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "model_provider": {
+    "type": "custom_model",
+    "weights_file": "profiles/model_weights/linear_policy.json",
+    "grasp_threshold": 0.35
+  },
+  "logs": {
+    "run_dir": "logs/armsmart_hil"
+  },
+  "future_components": [
+    "depth_sensor",
+    "force_torque_sensor",
+    "wheel_encoder_array",
+    "environmental_sensor_pack",
+    "third_camera"
+  ]
+}

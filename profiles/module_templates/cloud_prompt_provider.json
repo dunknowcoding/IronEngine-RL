@@ -1,0 +1,11 @@
+{
+  "model_provider": {
+    "type": "cloud_prompt",
+    "model": "gpt-compatible-model",
+    "api_base": "https://api.example.com/v1",
+    "api_key_env": "IRONENGINE_API_KEY",
+    "system_prompt": "Respect IronEngine safety, task phase, and repository notes when producing structured control guidance.",
+    "temperature": 0.2,
+    "timeout_s": 10.0
+  }
+}

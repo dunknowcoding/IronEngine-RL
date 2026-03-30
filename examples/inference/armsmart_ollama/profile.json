@@ -1,0 +1,120 @@
+{
+  "hardware": {
+    "platform": {
+      "name": "armsmart_ollama_example",
+      "type": "armsmart_reference",
+      "description": "ARMSmart mock transport paired with a local Ollama model."
+    },
+    "connection": {
+      "backend": "mock",
+      "default_mode": "arm",
+      "timeout_s": 0.05,
+      "read_chunk_size": 256,
+      "ble_enabled": true,
+      "serial": {
+        "port": "COM5",
+        "baud_rate": 115200
+      },
+      "udp": {
+        "host": "127.0.0.1",
+        "port": 9000,
+        "timeout_s": 0.05
+      }
+    },
+    "protocol": {
+      "commands": {
+        "ping": 1,
+        "pong": 2,
+        "set_mode_arm": 16,
+        "set_mode_car": 17,
+        "mode_ack": 18,
+        "servo_set": 32,
+        "motor_set": 48
+      }
+    },
+    "cameras": {
+      "backend": "placeholder",
+      "dash": {
+        "camera_id": "dash_cam_hw",
+        "device_index": 0,
+        "role": "dash"
+      },
+      "claw": {
+        "camera_id": "claw_cam_hw",
+        "device_index": 1,
+        "role": "claw"
+      }
+    },
+    "safety": {
+      "max_chassis_speed": 0.5,
+      "max_turn_rate": 0.4,
+      "max_arm_speed": 0.5,
+      "collision_stop_threshold": 0.8,
+      "stale_observation_stop_steps": 3,
+      "connection_required": true,
+      "low_battery_stop_threshold": 0.15,
+      "max_arm_extension": 0.85,
+      "max_gripper_close": 1.0
+    },
+    "mock": {
+      "active_scenario": "nominal",
+      "packets": [],
+      "scenarios": {
+        "nominal": [
+          {
+            "timestamp_s": 0.1,
+            "connection_alive": 1.0,
+            "battery_level": 0.9,
+            "collision_risk": 0.05,
+            "object_grasped": 0.0,
+            "object_dx": 0.48,
+            "object_dy": 0.04,
+            "arm_height": 0.22,
+            "arm_extension": 0.35,
+            "claw_alignment": 0.69,
+            "gripper_close": 0.15,
+            "dash_visibility": 0.82,
+            "claw_visibility": 0.51
+          }
+        ]
+      }
+    }
+  },
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "llm": {
+    "role_contract_file": "SOUL.md",
+    "task": {
+      "name": "right_object_grasp",
+      "goal": "Grasp the right object on the work surface and avoid non-target objects.",
+      "success_criteria": [
+        "identify and approach the right-side target object",
+        "complete the grasp without violating safety thresholds"
+      ],
+      "constraints": [
+        "do not command unsupported motions",
+        "respect framework safety boundaries and action-scheme sequencing"
+      ]
+    }
+  },
+  "model_provider": {
+    "type": "ollama_prompt",
+    "model": "llama3.1:8b",
+    "base_url": "http://127.0.0.1:11434",
+    "prompt_template": "armsmart_grasp_local",
+    "role_contract_file": "SOUL.md",
+    "system_prompt": "You are the local ARMSmart reasoning module. Given hardware sensors, camera visibility, and repository notes, choose the safest next phase while respecting IronEngine-RL safety limits.",
+    "timeout_s": 20.0
+  },
+  "evaluation": {
+    "task": "hardware_link_validation",
+    "metrics": [
+      "boundary_violations"
+    ]
+  },
+  "logs": {
+    "run_dir": "logs/examples/inference/armsmart_ollama"
+  }
+}

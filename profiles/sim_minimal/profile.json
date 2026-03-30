@@ -1,0 +1,53 @@
+{
+  "runtime": {
+    "mode": "simulation",
+    "stage": "A"
+  },
+  "simulator": {
+    "dt_s": 0.1,
+    "max_steps": 40,
+    "enable_noise": false,
+    "object_pose": {
+      "x": 1.4,
+      "y": 0.35
+    }
+  },
+  "vision": {
+    "dash_camera_id": "dash_cam_0",
+    "claw_camera_id": "claw_cam_0"
+  },
+  "reward": {
+    "progress_scale": 4.0,
+    "alignment_scale": 1.5,
+    "pregrasp_scale": 1.2,
+    "reachability_scale": 0.6,
+    "visibility_scale": 0.5,
+    "energy_scale": 0.1,
+    "battery_margin_scale": 0.2,
+    "safety_scale": 2.0,
+    "vertical_error_scale": 0.8,
+    "success_bonus": 12.0
+  },
+  "safety": {
+    "max_chassis_speed": 0.8,
+    "max_turn_rate": 0.7,
+    "max_arm_speed": 0.8,
+    "collision_stop_threshold": 0.95,
+    "stale_observation_stop_steps": 3,
+    "connection_required": false,
+    "max_arm_extension": 0.85,
+    "max_gripper_close": 1.0
+  },
+  "model_provider": {
+    "type": "rule_based"
+  },
+  "logs": {
+    "run_dir": "logs/sim_minimal"
+  },
+  "future_components": [
+    "depth_sensor",
+    "force_torque_sensor",
+    "wheel_encoder_array",
+    "environmental_sensor_pack"
+  ]
+}

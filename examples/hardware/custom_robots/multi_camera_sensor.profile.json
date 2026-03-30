@@ -1,0 +1,87 @@
+{
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "platform": {
+    "name": "multi_camera_sensor_rig",
+    "type": "custom_hardware",
+    "description": "Hardware profile with extra overhead camera and custom force sensor.",
+    "capabilities": {
+      "transport_backends": [
+        "serial",
+        "udp"
+      ],
+      "observation_fields": [
+        "connection_alive",
+        "battery_level",
+        "collision_risk",
+        "object_dx",
+        "object_dy",
+        "arm_height",
+        "arm_extension",
+        "claw_alignment",
+        "gripper_close",
+        "force_z",
+        "temperature_c"
+      ],
+      "camera_roles": [
+        "dash",
+        "claw",
+        "overhead"
+      ],
+      "action_channels": [
+        "chassis_forward",
+        "chassis_strafe",
+        "chassis_turn",
+        "arm_lift",
+        "arm_extend",
+        "wrist_yaw",
+        "gripper_close"
+      ],
+      "safety_features": [
+        "collision_threshold",
+        "battery_threshold",
+        "connection_required",
+        "stale_observation_check",
+        "force_limit"
+      ],
+      "timing": {
+        "transport_timeout_s": 0.05,
+        "read_chunk_size": 512
+      }
+    }
+  },
+  "transport": {
+    "backend": "serial",
+    "port": "COM5",
+    "baudrate": 115200,
+    "timeout_s": 0.05,
+    "read_chunk_size": 512
+  },
+  "vision": {
+    "backend": "placeholder",
+    "dash_role": "dash",
+    "claw_role": "claw"
+  },
+  "model_provider": {
+    "type": "linear_policy",
+    "weights_file": "profiles/model_weights/linear_policy.json"
+  },
+  "agent": {
+    "type": "heuristic"
+  },
+  "boundary_conditions": {
+    "type": "safety_controller"
+  },
+  "evaluation": {
+    "task": "tabletop_grasp",
+    "metrics": [
+      "task_performance",
+      "boundary_violations"
+    ]
+  },
+  "logs": {
+    "run_dir": "logs/examples/hardware/custom_robots/multi_camera_sensor"
+  }
+}

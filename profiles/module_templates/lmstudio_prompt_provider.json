@@ -1,0 +1,10 @@
+{
+  "model_provider": {
+    "type": "lmstudio_prompt",
+    "model": "local-model",
+    "base_url": "http://127.0.0.1:1234/v1",
+    "system_prompt": "Use the IronEngine repository context and observation features to choose approach vs grasp phase.",
+    "prompt_template": "grasp_controller_v1",
+    "timeout_s": 8.0
+  }
+}

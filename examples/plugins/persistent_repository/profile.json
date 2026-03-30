@@ -1,0 +1,102 @@
+{
+  "runtime": {
+    "mode": "simulation",
+    "stage": "B"
+  },
+  "action_scheme": {
+    "name": "phased_grasp_schedule",
+    "command_channels": [
+      "chassis_forward",
+      "chassis_turn",
+      "arm_lift",
+      "arm_extend",
+      "gripper_close"
+    ],
+    "feedback_fields": [
+      "object_dx",
+      "object_dy",
+      "claw_alignment",
+      "arm_extension",
+      "arm_height",
+      "battery_level",
+      "collision_risk"
+    ],
+    "result_fields": [
+      "reward.total",
+      "reward.components.progress",
+      "done",
+      "info.success"
+    ],
+    "schedule_notes": [
+      "approach before arm extension",
+      "close gripper only after alignment exceeds threshold"
+    ]
+  },
+  "simulator": {
+    "dt_s": 0.1,
+    "max_steps": 20,
+    "enable_noise": true,
+    "grasp_height_target": 0.18,
+    "object_pose": {
+      "x": 1.15,
+      "y": 0.1
+    }
+  },
+  "vision": {
+    "backend": "replay",
+    "dash_camera_id": "dash_cam_custom",
+    "claw_camera_id": "claw_cam_custom",
+    "replay_file": "profiles/replay_camera/vision_features.json",
+    "replay_loop": true
+  },
+  "model_provider": {
+    "type": "pytorch_trainable",
+    "weights_file": "profiles/model_weights/linear_policy.json",
+    "grasp_threshold": 0.35,
+    "update_strategy": {
+      "type": "repository_linear_blend",
+      "blend_factor": 0.12,
+      "success_gain": 0.08
+    }
+  },
+  "evaluation": {
+    "task": "tabletop_grasp",
+    "metrics": [
+      "task_performance",
+      "boundary_violations"
+    ]
+  },
+  "repository": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.repositories.persistent_json_repository:PersistentJsonRepository"
+    },
+    "database_file": "repository_database.json"
+  },
+  "reward": {
+    "progress_scale": 4.2,
+    "alignment_scale": 1.5,
+    "pregrasp_scale": 1.2,
+    "reachability_scale": 0.6,
+    "visibility_scale": 0.5,
+    "energy_scale": 0.12,
+    "battery_margin_scale": 0.2,
+    "safety_scale": 2.8,
+    "vertical_error_scale": 0.8,
+    "success_bonus": 13.0
+  },
+  "safety": {
+    "max_chassis_speed": 0.7,
+    "max_turn_rate": 0.6,
+    "max_arm_speed": 0.7,
+    "collision_stop_threshold": 0.88,
+    "stale_observation_stop_steps": 3,
+    "connection_required": false,
+    "low_battery_stop_threshold": 0.15,
+    "max_arm_extension": 0.85,
+    "max_gripper_close": 1.0
+  },
+  "logs": {
+    "run_dir": "logs/examples/plugins/persistent_repository"
+  }
+}

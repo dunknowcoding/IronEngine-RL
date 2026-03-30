@@ -1,0 +1,120 @@
+{
+  "hardware": {
+    "platform": {
+      "name": "armsmart_pytorch_custom_example",
+      "type": "armsmart_reference",
+      "description": "ARMSmart mock transport paired with a custom PyTorch inference provider."
+    },
+    "connection": {
+      "backend": "mock",
+      "default_mode": "arm",
+      "timeout_s": 0.05,
+      "read_chunk_size": 256,
+      "ble_enabled": true,
+      "serial": {
+        "port": "COM5",
+        "baud_rate": 115200
+      },
+      "udp": {
+        "host": "127.0.0.1",
+        "port": 9000,
+        "timeout_s": 0.05
+      }
+    },
+    "protocol": {
+      "commands": {
+        "ping": 1,
+        "pong": 2,
+        "set_mode_arm": 16,
+        "set_mode_car": 17,
+        "mode_ack": 18,
+        "servo_set": 32,
+        "motor_set": 48
+      }
+    },
+    "cameras": {
+      "backend": "placeholder",
+      "dash": {
+        "camera_id": "dash_cam_hw",
+        "device_index": 0,
+        "role": "dash"
+      },
+      "claw": {
+        "camera_id": "claw_cam_hw",
+        "device_index": 1,
+        "role": "claw"
+      }
+    },
+    "safety": {
+      "max_chassis_speed": 0.5,
+      "max_turn_rate": 0.4,
+      "max_arm_speed": 0.5,
+      "collision_stop_threshold": 0.8,
+      "stale_observation_stop_steps": 3,
+      "connection_required": true,
+      "low_battery_stop_threshold": 0.15,
+      "max_arm_extension": 0.85,
+      "max_gripper_close": 1.0
+    },
+    "mock": {
+      "active_scenario": "nominal",
+      "packets": [],
+      "scenarios": {
+        "nominal": [
+          {
+            "timestamp_s": 0.1,
+            "connection_alive": 1.0,
+            "battery_level": 0.93,
+            "collision_risk": 0.03,
+            "object_grasped": 0.0,
+            "object_dx": 0.35,
+            "object_dy": 0.02,
+            "arm_height": 0.25,
+            "arm_extension": 0.46,
+            "claw_alignment": 0.82,
+            "gripper_close": 0.16,
+            "dash_visibility": 0.88,
+            "claw_visibility": 0.63
+          }
+        ]
+      }
+    }
+  },
+  "runtime": {
+    "mode": "hardware",
+    "stage": "C"
+  },
+  "model_provider": {
+    "type": "custom_plugin",
+    "plugin": {
+      "module_path": "user_modules.examples.inference.custom_torch_inference_provider:CustomTorchPolicyProvider"
+    },
+    "weights_file": "examples/inference/armsmart_pytorch_custom/weights/demo_policy.pt",
+    "grasp_threshold": 0.55,
+    "contract": {
+      "observation_fields": [
+        "object_dx",
+        "object_dy",
+        "claw_alignment",
+        "arm_extension",
+        "arm_height",
+        "battery_level",
+        "collision_risk"
+      ],
+      "camera_roles": [
+        "dash",
+        "claw"
+      ]
+    }
+  },
+  "evaluation": {
+    "task": "tabletop_grasp",
+    "metrics": [
+      "task_performance",
+      "boundary_violations"
+    ]
+  },
+  "logs": {
+    "run_dir": "logs/examples/inference/armsmart_pytorch_custom"
+  }
+}
